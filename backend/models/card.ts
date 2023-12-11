@@ -1,242 +1,269 @@
-import QRCode from 'qrcode';
-import { User } from './user';
+import QRCode from 'qrcode'
+import { User } from './user'
+
 class Card {
-    private id: number;
-    private cardUser: User;
+  private _id: number
+  private _cardUser: User
 
-    constructor(id: number, cardUser: User) {
-        this.id = id;
-        this.cardUser = cardUser;
-    }
-    getCardUser(): User {
-        return this.cardUser;
-    }
-    setCardUser(cardUser: User): void {
-        this.cardUser = cardUser;
-    }
-    getId(): number {
-        return this.id;
-    }
-    setId(id: number): void {
-        this.id = id;
-    }
+  constructor(id: number, cardUser: User) {
+    this._id = id
+    this._cardUser = cardUser
+  }
+
+  public get cardUser() {
+    return this._cardUser
+  }
+
+  public set cardUser(cardUser: User) {
+    this._cardUser = cardUser
+  }
+
+  public get id() {
+    return this._id
+  }
 }
 
-class userCard extends Card {
-    cardName: string;
-    cardTitle: string;
-    cardPhone: string;
-    cardEmail: string;
-    cardCity: string;
-    cardBirthday: string;
-    cardNationality: string;
-    cardExperience: string;
-    cardExperience2: string;
-    cardExperience3: string;
-    cardEducation: string;
+class UserCard extends Card {
+  cardName: string
+  cardTitle: string
+  cardPhone: string
+  cardEmail: string
+  cardCity: string
+  cardBirthday: string
+  cardNationality: string
+  cardExperience: string
+  cardExperience2: string
+  cardExperience3: string
+  cardEducation: string
 
-    async generateQRCode(): Promise<string> {
-        const cardData = JSON.stringify({
-            cardName: this.cardName,
-            cardTitle: this.cardTitle,
-            cardPhone: this.cardPhone,
-            cardEmail: this.cardEmail,
-            cardCity: this.cardCity,
-            cardBirthday: this.cardBirthday,
-            cardNationality: this.cardNationality,
-            cardExperience: this.cardExperience,
-            cardExperience2: this.cardExperience2,
-            cardExperience3: this.cardExperience3,
-            cardEducation: this.cardEducation
-        });
-        try {
-            const qrCode = await QRCode.toDataURL(cardData);
-            return qrCode;
-        } catch (err) {
-            console.error(err);
-            return '';
-        }
+  async generateQRCode(): Promise<string> {
+    const cardData = JSON.stringify({
+      cardName: this.cardName,
+      cardTitle: this.cardTitle,
+      cardPhone: this.cardPhone,
+      cardEmail: this.cardEmail,
+      cardCity: this.cardCity,
+      cardBirthday: this.cardBirthday,
+      cardNationality: this.cardNationality,
+      cardExperience: this.cardExperience,
+      cardExperience2: this.cardExperience2,
+      cardExperience3: this.cardExperience3,
+      cardEducation: this.cardEducation,
+    })
+    try {
+      const qrCode = await QRCode.toDataURL(cardData)
+      return qrCode
+    } catch (err) {
+      console.error(err)
+      return ''
     }
+  }
 
-    getCardName(): string {
-        return this.cardName;
-    }
-    setCardName(cardName: string): void {
-        this.cardName = cardName;
-    }
+  getCardName(): string {
+    return this.cardName
+  }
 
-    getCardTitle(): string {
-        return this.cardTitle;
-    }
-    setCardTitle(cardTitle: string): void {
-        this.cardTitle = cardTitle;
-    }
+  setCardName(cardName: string): void {
+    this.cardName = cardName
+  }
 
-    getCardPhone(): string {
-        return this.cardPhone;
-    }
-    setCardPhone(cardPhone: string): void {
-        this.cardPhone = cardPhone;
-    }
+  getCardTitle(): string {
+    return this.cardTitle
+  }
 
-    getCardEmail(): string {
-        return this.cardEmail;
-    }
-    setCardEmail(cardEmail: string): void {
-        this.cardEmail = cardEmail;
-    }
+  setCardTitle(cardTitle: string): void {
+    this.cardTitle = cardTitle
+  }
 
-    getCardCity(): string {
-        return this.cardCity;
-    }
-    setCardCity(cardCity: string): void {
-        this.cardCity = cardCity;
-    }
+  getCardPhone(): string {
+    return this.cardPhone
+  }
 
-    getCardBirthday(): string {
-        return this.cardBirthday;
-    }
-    setCardBirthday(cardBirthday: string): void {
-        this.cardBirthday = cardBirthday;
-    }
+  setCardPhone(cardPhone: string): void {
+    this.cardPhone = cardPhone
+  }
 
-    getCardNationality(): string {
-        return this.cardNationality;
-    }
-    setCardNationality(cardNationality: string): void {
-        this.cardNationality = cardNationality;
-    }
+  getCardEmail(): string {
+    return this.cardEmail
+  }
 
-    getCardExperience(): string {
-        return this.cardExperience;
-    }
-    setCardExperience(cardExperience: string): void {
-        this.cardExperience = cardExperience;
-    }
+  setCardEmail(cardEmail: string): void {
+    this.cardEmail = cardEmail
+  }
 
-    getCardExperience2(): string {
-        return this.cardExperience2;
-    }
-    setCardExperience2(cardExperience2: string): void {
-        this.cardExperience2 = cardExperience2;
-    }
+  getCardCity(): string {
+    return this.cardCity
+  }
 
-    getCardExperience3(): string {
-        return this.cardExperience3;
-    }
-    setCardExperience3(cardExperience3: string): void {
-        this.cardExperience3 = cardExperience3;
-    }
+  setCardCity(cardCity: string): void {
+    this.cardCity = cardCity
+  }
 
-    getCardEducation(): string {
-        return this.cardEducation;
-    }
-    setCardEducation(cardEducation: string): void {
-        this.cardEducation = cardEducation;
-    }
+  getCardBirthday(): string {
+    return this.cardBirthday
+  }
+
+  setCardBirthday(cardBirthday: string): void {
+    this.cardBirthday = cardBirthday
+  }
+
+  getCardNationality(): string {
+    return this.cardNationality
+  }
+
+  setCardNationality(cardNationality: string): void {
+    this.cardNationality = cardNationality
+  }
+
+  getCardExperience(): string {
+    return this.cardExperience
+  }
+
+  setCardExperience(cardExperience: string): void {
+    this.cardExperience = cardExperience
+  }
+
+  getCardExperience2(): string {
+    return this.cardExperience2
+  }
+
+  setCardExperience2(cardExperience2: string): void {
+    this.cardExperience2 = cardExperience2
+  }
+
+  getCardExperience3(): string {
+    return this.cardExperience3
+  }
+
+  setCardExperience3(cardExperience3: string): void {
+    this.cardExperience3 = cardExperience3
+  }
+
+  getCardEducation(): string {
+    return this.cardEducation
+  }
+
+  setCardEducation(cardEducation: string): void {
+    this.cardEducation = cardEducation
+  }
 }
 
-class companyCard extends Card {
-    cardName: string;
-    cardTitle: string;
-    cardPhone: string;
-    cardEmail: string;
-    cardAddress: string;
+class CompanyCard extends Card {
+  cardName: string
+  cardTitle: string
+  cardPhone: string
+  cardEmail: string
+  cardAddress: string
 
-    async generateQRCode(): Promise<string> {
-        const cardData = JSON.stringify({
-            cardName: this.cardName,
-            cardTitle: this.cardTitle,
-            cardPhone: this.cardPhone,
-            cardEmail: this.cardEmail,
-            cardAddress: this.cardAddress
-        });
-        try {
-            const qrCode = await QRCode.toDataURL(cardData);
-            return qrCode;
-        } catch (err) {
-            console.error(err);
-            return '';
-        }
+  async generateQRCode(): Promise<string> {
+    const cardData = JSON.stringify({
+      cardName: this.cardName,
+      cardTitle: this.cardTitle,
+      cardPhone: this.cardPhone,
+      cardEmail: this.cardEmail,
+      cardAddress: this.cardAddress,
+    })
+    try {
+      const qrCode = await QRCode.toDataURL(cardData)
+      return qrCode
+    } catch (err) {
+      console.error(err)
+      return ''
     }
-    setCardName(cardName: string): void {
-        this.cardName = cardName;
-    }
-    getCardName(): string {
-        return this.cardName;
-    }
-    setCardTitle(cardTitle: string): void {
-        this.cardTitle = cardTitle;
-    }
-    getCardTitle(): string {
-        return this.cardTitle;
-    }
-    setCardPhone(cardPhone: string): void {
-        this.cardPhone = cardPhone;
-    }
-    getCardPhone(): string {
-        return this.cardPhone;
-    }
-    setCardEmail(cardEmail: string): void {
-        this.cardEmail = cardEmail;
-    }
-    getCardEmail(): string {
-        return this.cardEmail;
-    }
-    setCardAddress(cardAddress: string): void {
-        this.cardAddress = cardAddress;
-    }
-    getCardAddress(): string {
-        return this.cardAddress;
-    }
+  }
+  setCardName(cardName: string): void {
+    this.cardName = cardName
+  }
 
-    
+  getCardName(): string {
+    return this.cardName
+  }
+
+  setCardTitle(cardTitle: string): void {
+    this.cardTitle = cardTitle
+  }
+
+  getCardTitle(): string {
+    return this.cardTitle
+  }
+
+  setCardPhone(cardPhone: string): void {
+    this.cardPhone = cardPhone
+  }
+
+  getCardPhone(): string {
+    return this.cardPhone
+  }
+
+  setCardEmail(cardEmail: string): void {
+    this.cardEmail = cardEmail
+  }
+
+  getCardEmail(): string {
+    return this.cardEmail
+  }
+
+  setCardAddress(cardAddress: string): void {
+    this.cardAddress = cardAddress
+  }
+
+  getCardAddress(): string {
+    return this.cardAddress
+  }
 }
 
-class productCard extends Card {
-    cardName: string;
-    cardTitle: string;
-    cardPhone: string;
-    cardEmail: string;
+class ProductCard extends Card {
+  cardName: string
+  cardTitle: string
+  cardPhone: string
+  cardEmail: string
 
-    async generateQRCode(): Promise<string> {
-        const cardData = JSON.stringify({
-            cardName: this.cardName,
-            cardTitle: this.cardTitle,
-            cardPhone: this.cardPhone,
-            cardEmail: this.cardEmail
-        });
-        try {
-            const qrCode = await QRCode.toDataURL(cardData);
-            return qrCode;
-        } catch (err) {
-            console.error(err);
-            return '';
-        }
+  async generateQRCode(): Promise<string> {
+    const cardData = JSON.stringify({
+      cardName: this.cardName,
+      cardTitle: this.cardTitle,
+      cardPhone: this.cardPhone,
+      cardEmail: this.cardEmail,
+    })
+    try {
+      const qrCode = await QRCode.toDataURL(cardData)
+      return qrCode
+    } catch (err) {
+      console.error(err)
+      return ''
     }
-    setCardName(cardName: string): void {
-        this.cardName = cardName;
-    }
-    getCardName(): string {
-        return this.cardName;
-    }
-    setCardTitle(cardTitle: string): void {
-        this.cardTitle = cardTitle;
-    }
-    getCardTitle(): string {
-        return this.cardTitle;
-    }
-    setCardPhone(cardPhone: string): void {
-        this.cardPhone = cardPhone;
-    }
-    getCardPhone(): string {
-        return this.cardPhone;
-    }
-    setCardEmail(cardEmail: string): void {
-        this.cardEmail = cardEmail;
-    }
-    getCardEmail(): string {
-        return this.cardEmail;
-    }
+  }
+
+  setCardName(cardName: string): void {
+    this.cardName = cardName
+  }
+
+  getCardName(): string {
+    return this.cardName
+  }
+
+  setCardTitle(cardTitle: string): void {
+    this.cardTitle = cardTitle
+  }
+
+  getCardTitle(): string {
+    return this.cardTitle
+  }
+
+  setCardPhone(cardPhone: string): void {
+    this.cardPhone = cardPhone
+  }
+
+  getCardPhone(): string {
+    return this.cardPhone
+  }
+
+  setCardEmail(cardEmail: string): void {
+    this.cardEmail = cardEmail
+  }
+
+  getCardEmail(): string {
+    return this.cardEmail
+  }
 }
-export { Card, userCard, companyCard, productCard };
+export { Card, UserCard, CompanyCard as companyCard, ProductCard }
