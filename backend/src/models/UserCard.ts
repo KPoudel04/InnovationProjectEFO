@@ -1,5 +1,22 @@
+import { Types } from 'mongoose'
 import Card from './Card'
 import QRCode from 'qrcode'
+
+interface UserCardData {
+  _id: Types.ObjectId | string
+  user: Types.ObjectId | string
+  name: string
+  title: string
+  phone: string
+  email: string
+  city: string
+  birthday: string
+  nationality: string
+  experience: string
+  experience2: string
+  experience3: string
+  education: string
+}
 
 class UserCard extends Card {
   name: string
@@ -13,6 +30,21 @@ class UserCard extends Card {
   experience2: string
   experience3: string
   education: string
+
+  constructor(data: UserCardData) {
+    super(data._id, data.user)
+    this.name = data.name
+    this.title = data.title
+    this.phone = data.phone
+    this.email = data.email
+    this.city = data.city
+    this.birthday = data.birthday
+    this.nationality = data.nationality
+    this.experience = data.experience
+    this.experience2 = data.experience2
+    this.experience3 = data.experience3
+    this.education = data.education
+  }
 
   async generateQRCode(): Promise<string> {
     const cardData = JSON.stringify({

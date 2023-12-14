@@ -1,11 +1,28 @@
 import Card from './Card'
 import QRCode from 'qrcode'
 
+interface ProductCardData {
+  _id: string
+  user: string
+  cardName: string
+  cardTitle: string
+  cardPhone: string
+  cardEmail: string
+}
+
 class ProductCard extends Card {
   cardName: string
   cardTitle: string
   cardPhone: string
   cardEmail: string
+
+  constructor(data: ProductCardData) {
+    super(data._id, data.user)
+    this.cardName = data.cardName
+    this.cardTitle = data.cardTitle
+    this.cardPhone = data.cardPhone
+    this.cardEmail = data.cardEmail
+  }
 
   async generateQRCode(): Promise<string> {
     const cardData = JSON.stringify({
