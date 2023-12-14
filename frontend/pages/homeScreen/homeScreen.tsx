@@ -1,8 +1,16 @@
-import React from 'react';
-import { SafeAreaView, ScrollView, View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
-import Card from '../../cards/Card';
-import Icon from 'react-native-vector-icons/FontAwesome'; 
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import React from 'react'
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Image,
+} from 'react-native'
+import Card from '../../cards/Card'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 
 const HomeScreen = () => {
   return (
@@ -31,15 +39,15 @@ const HomeScreen = () => {
           <Icon name="search" size={20} color="#000" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.footerButton}>
-        <FontAwesomeIcon name="qrcode" size={24} color="#000" />
-</TouchableOpacity>
-<TouchableOpacity style={styles.footerButton}>
-        <FontAwesomeIcon name="database" size={24} color="#000" />
-</TouchableOpacity>
+          <FontAwesomeIcon name="qrcode" size={24} color="#000" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.footerButton}>
+          <FontAwesomeIcon name="database" size={24} color="#000" />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -70,6 +78,6 @@ const styles = StyleSheet.create({
   footerButton: {
     padding: 10,
   },
-});
+})
 
-export default HomeScreen;
+export default HomeScreen

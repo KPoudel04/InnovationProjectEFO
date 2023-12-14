@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import QRCode from 'react-native-qrcode-svg';
+import React from 'react';
 
 interface CardProps {
   title: string
