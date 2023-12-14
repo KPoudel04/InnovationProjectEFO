@@ -2,17 +2,13 @@ import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import Card from './cards/Card'
+import HomeScreen from './pages/homeScreen/homeScreen'
 
 export default function App() {
   return (
-    <SafeAreaView>
-      <Card
-        image={require('./assets/favicon.png')}
-        title="John Doe"
-        whatsapp="1234"
-        instagram="@johndoe"
-        linkedin="John Doe"
-      />
+    <SafeAreaView style={styles.container}>
+      <HomeScreen />
+      <StatusBar style="auto" />
     </SafeAreaView>
   )
 }
