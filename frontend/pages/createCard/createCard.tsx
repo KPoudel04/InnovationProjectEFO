@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native'
+import RestClient from '../../networking/RestClient'
 import React, { useState } from 'react'
 import {
   View,
@@ -8,8 +10,11 @@ import {
   StyleSheet,
   Button,
 } from 'react-native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from 'App'
 
 const CreateNewCardScreen = () => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const [activeTab, setActiveTab] = useState('CV')
   const [cvState, setCvState] = useState({
     firstName: '',
@@ -23,6 +28,7 @@ const CreateNewCardScreen = () => {
     experience: '',
     education: '',
     skills: '',
+    cardName: '',
   })
   const [companyState, setCompanyState] = useState({
     companyName: '',
@@ -39,7 +45,18 @@ const CreateNewCardScreen = () => {
   })
 
   const handleSubmit = () => {
-    //NEED TO DO
+    let cardData: Record<string, string>
+    if (activeTab === 'CV') {
+      cardData = { ...cvState, name: cvState.cardName }
+    } else if (activeTab === 'Company') {
+      cardData = companyState
+    } else {
+      cardData = productState
+    }
+    RestClient.instance
+      .createCard(cardData, activeTab)
+      .then(async () => RestClient.instance.reloadCards(activeTab))
+      .then(() => navigation.navigate('YourCards'))
   }
 
   const renderForm = () => {
@@ -99,7 +116,7 @@ const CreateNewCardScreen = () => {
               placeholder="Nationality *"
               value={cvState.nationality}
               onChangeText={(text) =>
-                setCvState({ ...cvState, birthday: text })
+                setCvState({ ...cvState, nationality: text })
               }
               style={styles.input}
             />
@@ -123,6 +140,14 @@ const CreateNewCardScreen = () => {
               placeholder="Skills *"
               value={cvState.skills}
               onChangeText={(text) => setCvState({ ...cvState, skills: text })}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="Card Name *"
+              value={cvState.cardName}
+              onChangeText={(text) =>
+                setCvState({ ...cvState, cardName: text })
+              }
               style={styles.input}
             />
           </View>

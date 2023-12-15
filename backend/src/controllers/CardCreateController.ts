@@ -21,6 +21,7 @@ class CardCreateController implements Controller {
 
   private createCard = async (req: Request, res: Response) => {
     const cardType: CardType = req.body.cardType
+    console.log(cardType)
 
     let card: Card
 
@@ -32,12 +33,13 @@ class CardCreateController implements Controller {
         card = await ProductCard.createNew(req.body)
         break
       case 'CV':
-        card = await UserCard.createNew(req.body)
+        card = await UserCard.createNew({ ...req.body, user: req.user!.id })
+        break
       default:
         throw new Error('Invalid card type')
     }
 
-    const user = new User(req.user!)
+    const user = new User({ ...req.user!, _id: req.user!.id })
     await user.addCardsGivenAway(card)
     const qrCode = await card.generateQRCode()
     res.json({ card: card.forAPI, qrCode })

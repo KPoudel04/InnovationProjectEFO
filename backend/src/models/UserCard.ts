@@ -32,6 +32,7 @@ class UserCard extends Card {
 
   public override get forAPI() {
     return {
+      id: this.id,
       name: this.name,
       title: this.title,
       phone: this.phone,

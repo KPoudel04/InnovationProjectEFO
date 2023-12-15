@@ -18,39 +18,29 @@ class CardGetAllController implements Controller {
   }
 
   public init() {
-    this.app.get('/card/:cardType', authenticate, this.getAllCards)
+    this.app.get('/cards', authenticate, this.getAllCards)
   }
 
   private getAllCards = async (req: Request, res: Response) => {
-    let cards: Card[]
+    const cards: Card[] = []
 
-    const cardType: CardType = req.body.cardType
+    const companyCards = await CompanyCardModel.find({
+      user: req.user!.id,
+    }).exec()
 
-    switch (cardType) {
-      case 'company': {
-        const cardData = await CompanyCardModel.find({
-          user: req.user!._id,
-        })
-        cards = cardData.map((card) => new CompanyCard(card.toObject()))
-        break
-      }
-      case 'product': {
-        const cardData = await ProductCardModel.find({
-          user: req.user!._id,
-        })
-        cards = cardData.map((card) => new ProductCard(card.toObject()))
-        break
-      }
-      case 'CV': {
-        const cardData = await UserCardModel.find({
-          user: req.user!._id,
-        })
-        cards = cardData.map((card) => new UserCard(card.toObject()))
-      }
-      default:
-        res.status(400).json({ error: 'Invalid card type' })
-        return
-    }
+    cards.push(...companyCards.map((card) => new CompanyCard(card.toObject())))
+
+    const productCards = await ProductCardModel.find({
+      user: req.user!.id,
+    }).exec()
+
+    cards.push(...productCards.map((card) => new ProductCard(card.toObject())))
+
+    const userCards = await UserCardModel.find({
+      user: req.user!.id,
+    }).exec()
+
+    cards.push(...userCards.map((card) => new UserCard(card.toObject())))
 
     const qrCodes = await Promise.all(
       cards.map((card) => card.generateQRCode())

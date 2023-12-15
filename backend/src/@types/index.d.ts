@@ -3,7 +3,7 @@ import { Request } from 'express'
 
 declare module 'express-serve-static-core' {
   interface User {
-    _id: Types.ObjectId
+    id: Types.ObjectId
     firstName: string
     lastName: string
     email: string

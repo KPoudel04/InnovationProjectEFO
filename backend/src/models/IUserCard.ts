@@ -16,9 +16,6 @@ interface IUserCard {
   education: string
 }
 
-export type INewUserCard = Omit<
-  IUserCard,
-  '_id' | 'user' | 'experience2' | 'experience3'
->
+export type INewUserCard = Omit<IUserCard, '_id'>
 
 export default IUserCard

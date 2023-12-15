@@ -2,7 +2,7 @@ import axios from 'axios'
 
 class RestClient {
   private token: string | null = null
-  private _cards: Record<string, unknown>[] = []
+  private _cards: Record<string, string>[] = []
 
   private HOST = 'http://localhost:3000'
 
@@ -43,16 +43,24 @@ class RestClient {
   }
 
   public async createCard(card: Record<string, unknown>, cardType: string) {
-    const response = await fetch(`${this.HOST}/card`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.token}`,
+    const response = await axios.post(
+      `${this.HOST}/card`,
+      {
+        ...card,
+        cardType,
       },
-      body: JSON.stringify({ card, cardType }),
-    })
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      }
+    )
 
-    const data = await response.json()
+    if (response.status !== 200) {
+      throw new Error('Failed to create card')
+    }
+
+    const data = response.data
     return data
   }
 
@@ -70,16 +78,20 @@ class RestClient {
     return data
   }
 
-  public async reloadCards(cardType: string) {
-    const response = await fetch(`${this.HOST}/card/${cardType}`, {
-      method: 'GET',
+  public async reloadCards() {
+    const response = await axios.get(`${this.HOST}/cards`, {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${this.token}`,
       },
     })
+    console.log(response.data)
 
-    const data = await response.json()
+    if (response.status !== 200) {
+      console.error(response.data)
+      throw new Error(response.data)
+    }
+
+    const data = response.data
     this._cards = data.cards
   }
 }

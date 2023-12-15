@@ -14,7 +14,7 @@ export const authenticate = async (
       if (err || !user) {
         return res.status(401).json({ message: 'Unauthorized' })
       }
-      req.user = user
+      req.user = user as any
       next()
     }
   )(req, res, next)

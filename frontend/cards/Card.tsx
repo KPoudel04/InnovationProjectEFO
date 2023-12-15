@@ -5,9 +5,9 @@ import {
   Text,
   View,
 } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome';
-import QRCode from 'react-native-qrcode-svg';
-import React from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome'
+import QRCode from 'react-native-qrcode-svg'
+import React from 'react'
 
 interface CardProps {
   title: string
@@ -17,36 +17,44 @@ interface CardProps {
   id?: string
 }
 
-
 const Card = (props: CardProps) => {
   const qrData = JSON.stringify({
     title: props.title,
     whatsapp: props.whatsapp,
     instagram: props.instagram,
     linkedin: props.linkedin,
-  });
+  })
   return (
-  <View style={styles.cardContainer}>
-    <View style={styles.qrCodeContainer}>
+    <View style={styles.cardContainer}>
+      <View style={styles.qrCodeContainer}>
         <QRCode value={qrData} size={100} />
       </View>
-    <View style={styles.rightBoxContainer}>
-      <Text style={styles.title}>{props.title}</Text>
-      <View style={styles.contactDetailsContainer}>
-        {props.whatsapp && (
-          <Icon name="whatsapp" style={{ marginRight: 10 }} size={20} color="#075E54" />
-          
-        )}
-        {props.instagram && (
-          <Icon name="instagram" style={{ marginRight: 10 }} size={20} color="#C13584" />
-        )}
-        {props.linkedin && (
-          <Icon name="linkedin-square" size={20} color="#0077B5" />
-        )}
+      <View style={styles.rightBoxContainer}>
+        <Text style={styles.title}>{props.title}</Text>
+        <View style={styles.contactDetailsContainer}>
+          {props.whatsapp && (
+            <Icon
+              name="whatsapp"
+              style={{ marginRight: 10 }}
+              size={20}
+              color="#075E54"
+            />
+          )}
+          {props.instagram && (
+            <Icon
+              name="instagram"
+              style={{ marginRight: 10 }}
+              size={20}
+              color="#C13584"
+            />
+          )}
+          {props.linkedin && (
+            <Icon name="linkedin-square" size={20} color="#0077B5" />
+          )}
+        </View>
       </View>
     </View>
-  </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -85,7 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-    backgroundColor: 'black', 
+    backgroundColor: 'black',
     borderRadius: 10,
     margin: 10,
   },
