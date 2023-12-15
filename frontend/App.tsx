@@ -1,28 +1,30 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
 import HomeScreen from './pages/homeScreen/homeScreen'
 import YourCards from './pages/yourCards/yourCards'
 import createCard from './pages/createCard/createCard'
 import CardDetails from './pages/cardDetails/cardDetails'
 import Login from './pages/login/login'
 import Signup from './pages/signup/signup'
+
 export type RootStackParamList = {
-  Home: undefined;
-  YourCards: undefined;
-  createCard: undefined;
-  CardDetails: { cardData: any }; 
-  Login:  undefined;
-  Signup: undefined;
-};
-export const Stack = createStackNavigator<RootStackParamList>();
+  Home: undefined
+  YourCards: undefined
+  createCard: undefined
+  CardDetails: { cardData: any }
+  Login: undefined
+  Signup: undefined
+}
+
+export const Stack = createStackNavigator<RootStackParamList>()
 
 export default function App() {
   return (
-    <NavigationContainer >
-      <Stack.Navigator >
+    <NavigationContainer>
+      <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Home" component={HomeScreen} />

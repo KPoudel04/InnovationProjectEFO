@@ -1,21 +1,21 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
-import QRCode from 'react-native-qrcode-svg'; 
+import React from 'react'
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native'
+import QRCode from 'react-native-qrcode-svg'
 
-const CardDetails= ({ route }:any) => {
-  const { cardData } = route.params;
+const CardDetails = ({ route }: any) => {
+  const { cardData } = route.params
 
+  console.log(cardData.id)
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.name}>{cardData.title}</Text>
       <Text style={styles.info}>API Information</Text>
       {/*PUT DB INFO HERE*/}
       <Text style={styles.editInformation}>Edit Information</Text>
-      <QRCode value={JSON.stringify(cardData)} size={200} />
-
+      <QRCode value={cardData.id} size={200} />
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
     color: 'blue',
     marginTop: 20,
   },
-});
+})
 
-export default CardDetails;
+export default CardDetails

@@ -23,7 +23,7 @@ const HomeScreen = () => {
   const [selectedCard, setSelectedCard] = React.useState(null)
   const handleCardPress = (cardData: any) => {
     setSelectedCard(cardData)
-    navigation.navigate('CardDetails', { cardData: cardData })
+    navigation.navigate('CardDetails', { cardData: cardData.card })
   }
 
   useEffect(() => {

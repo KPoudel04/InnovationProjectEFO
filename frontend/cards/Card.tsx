@@ -18,12 +18,7 @@ interface CardProps {
 }
 
 const Card = (props: CardProps) => {
-  const qrData = JSON.stringify({
-    title: props.title,
-    whatsapp: props.whatsapp,
-    instagram: props.instagram,
-    linkedin: props.linkedin,
-  })
+  const qrData = props.id
   return (
     <View style={styles.cardContainer}>
       <View style={styles.qrCodeContainer}>
