@@ -1,5 +1,6 @@
 import Card from './Card'
-import QRCode from 'qrcode'
+import { INewProductCard } from './IProductCard'
+import ProductCardModel from '../mongo/ProductCardModel'
 
 interface ProductCardData {
   _id: string
@@ -11,10 +12,10 @@ interface ProductCardData {
 }
 
 class ProductCard extends Card {
-  cardName: string
-  cardTitle: string
-  cardPhone: string
-  cardEmail: string
+  private cardName: string
+  private cardTitle: string
+  private cardPhone: string
+  private cardEmail: string
 
   constructor(data: ProductCardData) {
     super(data._id, data.user)
@@ -24,52 +25,21 @@ class ProductCard extends Card {
     this.cardEmail = data.cardEmail
   }
 
-  async generateQRCode(): Promise<string> {
-    const cardData = JSON.stringify({
+  public override get forAPI() {
+    return {
+      id: this.id,
+      user: this.user,
       cardName: this.cardName,
       cardTitle: this.cardTitle,
       cardPhone: this.cardPhone,
       cardEmail: this.cardEmail,
-    })
-    try {
-      const qrCode = await QRCode.toDataURL(cardData)
-      return qrCode
-    } catch (err) {
-      console.error(err)
-      return ''
     }
   }
 
-  setCardName(cardName: string): void {
-    this.cardName = cardName
-  }
-
-  getCardName(): string {
-    return this.cardName
-  }
-
-  setCardTitle(cardTitle: string): void {
-    this.cardTitle = cardTitle
-  }
-
-  getCardTitle(): string {
-    return this.cardTitle
-  }
-
-  setCardPhone(cardPhone: string): void {
-    this.cardPhone = cardPhone
-  }
-
-  getCardPhone(): string {
-    return this.cardPhone
-  }
-
-  setCardEmail(cardEmail: string): void {
-    this.cardEmail = cardEmail
-  }
-
-  getCardEmail(): string {
-    return this.cardEmail
+  public static async createNew(data: INewProductCard) {
+    const newProductCard = new ProductCardModel(data)
+    const savedProductCard = await newProductCard.save()
+    return new ProductCard(savedProductCard.toObject())
   }
 }
 

@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 const userCardSchema = new Schema({
   user: {
@@ -37,6 +37,12 @@ const userCardSchema = new Schema({
   experience: {
     type: String,
   },
+  experience2: {
+    type: String,
+  },
+  experience3: {
+    type: String,
+  },
   education: {
     type: String,
   },
@@ -44,3 +50,7 @@ const userCardSchema = new Schema({
     type: String,
   },
 })
+
+const UserCardModel = mongoose.model('UserCard', userCardSchema)
+
+export default UserCardModel

@@ -1,5 +1,6 @@
 import Card from './Card'
-import QRCode from 'qrcode'
+import ICompanyCard, { INewCompanyCard } from './ICompanyCard'
+import CompanyCardModel from '../mongo/CompanyCardModel'
 
 class CompanyCard extends Card {
   name: string
@@ -8,61 +9,31 @@ class CompanyCard extends Card {
   email: string
   address: string
 
-  async generateQRCode(): Promise<string> {
-    const cardData = JSON.stringify({
-      cardName: this.name,
-      cardTitle: this.title,
-      cardPhone: this.phone,
-      cardEmail: this.email,
-      cardAddress: this.address,
-    })
-    try {
-      const qrCode = await QRCode.toDataURL(cardData)
-      return qrCode
-    } catch (err) {
-      console.error(err)
-      return ''
+  constructor(data: ICompanyCard) {
+    super(data._id, data.user)
+    this.name = data.name
+    this.title = data.title
+    this.phone = data.phone
+    this.email = data.email
+    this.address = data.address
+  }
+
+  public override get forAPI() {
+    return {
+      id: this.id,
+      user: this.user,
+      name: this.name,
+      title: this.title,
+      phone: this.phone,
+      email: this.email,
+      address: this.address,
     }
   }
 
-  setCardName(cardName: string): void {
-    this.name = cardName
-  }
-
-  getCardName(): string {
-    return this.name
-  }
-
-  setCardTitle(cardTitle: string): void {
-    this.title = cardTitle
-  }
-
-  getCardTitle(): string {
-    return this.title
-  }
-
-  setCardPhone(cardPhone: string): void {
-    this.phone = cardPhone
-  }
-
-  getCardPhone(): string {
-    return this.phone
-  }
-
-  setCardEmail(cardEmail: string): void {
-    this.email = cardEmail
-  }
-
-  getCardEmail(): string {
-    return this.email
-  }
-
-  setCardAddress(cardAddress: string): void {
-    this.address = cardAddress
-  }
-
-  getCardAddress(): string {
-    return this.address
+  public static async createNew(data: INewCompanyCard) {
+    const newCompanyCard = new CompanyCardModel(data)
+    const savedCompanyCard = await newCompanyCard.save()
+    return new CompanyCard(savedCompanyCard.toObject())
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   View,
   Text,
@@ -7,10 +7,10 @@ import {
   ScrollView,
   StyleSheet,
   Button,
-} from 'react-native';
+} from 'react-native'
 
 const CreateNewCardScreen = () => {
-  const [activeTab, setActiveTab] = useState('CV');
+  const [activeTab, setActiveTab] = useState('CV')
   const [cvState, setCvState] = useState({
     firstName: '',
     lastName: '',
@@ -23,24 +23,24 @@ const CreateNewCardScreen = () => {
     experience: '',
     education: '',
     skills: '',
-    });
-    const [companyState, setCompanyState] = useState({
+  })
+  const [companyState, setCompanyState] = useState({
     companyName: '',
     title: '',
     phone: '',
     email: '',
     address: '',
-  });
+  })
   const [productState, setProductState] = useState({
     productName: '',
     description: '',
     phone: '',
     email: '',
-  });
+  })
 
   const handleSubmit = () => {
     //NEED TO DO
-  };
+  }
 
   const renderForm = () => {
     switch (activeTab) {
@@ -50,13 +50,17 @@ const CreateNewCardScreen = () => {
             <TextInput
               placeholder="First name *"
               value={cvState.firstName}
-              onChangeText={(text) => setCvState({ ...cvState, firstName: text })}
+              onChangeText={(text) =>
+                setCvState({ ...cvState, firstName: text })
+              }
               style={styles.input}
             />
             <TextInput
               placeholder="Last name *"
               value={cvState.lastName}
-              onChangeText={(text) => setCvState({ ...cvState, lastName: text })}
+              onChangeText={(text) =>
+                setCvState({ ...cvState, lastName: text })
+              }
               style={styles.input}
             />
             <TextInput
@@ -86,25 +90,33 @@ const CreateNewCardScreen = () => {
             <TextInput
               placeholder="Birthday *"
               value={cvState.birthday}
-              onChangeText={(text) => setCvState({ ...cvState, birthday: text })}
+              onChangeText={(text) =>
+                setCvState({ ...cvState, birthday: text })
+              }
               style={styles.input}
             />
             <TextInput
               placeholder="Nationality *"
               value={cvState.nationality}
-              onChangeText={(text) => setCvState({ ...cvState, birthday: text })}
+              onChangeText={(text) =>
+                setCvState({ ...cvState, birthday: text })
+              }
               style={styles.input}
             />
             <TextInput
               placeholder="Experience *"
               value={cvState.experience}
-              onChangeText={(text) => setCvState({ ...cvState, experience: text })}
+              onChangeText={(text) =>
+                setCvState({ ...cvState, experience: text })
+              }
               style={styles.input}
             />
             <TextInput
               placeholder="Education *"
               value={cvState.education}
-              onChangeText={(text) => setCvState({ ...cvState, education: text })}
+              onChangeText={(text) =>
+                setCvState({ ...cvState, education: text })
+              }
               style={styles.input}
             />
             <TextInput
@@ -114,76 +126,93 @@ const CreateNewCardScreen = () => {
               style={styles.input}
             />
           </View>
-        );
+        )
       case 'Company':
         return (
           <View>
             <TextInput
               placeholder="Company Name *"
               value={companyState.companyName}
-              onChangeText={(text) => setCompanyState({ ...companyState, companyName: text })}
+              onChangeText={(text) =>
+                setCompanyState({ ...companyState, companyName: text })
+              }
               style={styles.input}
             />
             <TextInput
               placeholder="Title *"
               value={companyState.title}
-              onChangeText={(text) => setCompanyState({ ...companyState, title: text })}
+              onChangeText={(text) =>
+                setCompanyState({ ...companyState, title: text })
+              }
               style={styles.input}
             />
             <TextInput
               placeholder="Phone *"
               value={companyState.phone}
-              onChangeText={(text) => setCompanyState({ ...companyState, phone: text })}
+              onChangeText={(text) =>
+                setCompanyState({ ...companyState, phone: text })
+              }
               style={styles.input}
             />
             <TextInput
               placeholder="Email *"
               value={companyState.email}
-              onChangeText={(text) => setCompanyState({ ...companyState, email: text })}
+              onChangeText={(text) =>
+                setCompanyState({ ...companyState, email: text })
+              }
               style={styles.input}
             />
             <TextInput
               placeholder="Address *"
               value={companyState.address}
-              onChangeText={(text) => setCompanyState({ ...companyState, address: text })}
+              onChangeText={(text) =>
+                setCompanyState({ ...companyState, address: text })
+              }
               style={styles.input}
             />
-
           </View>
-        );
+        )
       case 'Product':
         return (
           <View>
             <TextInput
               placeholder="Product Name *"
               value={productState.productName}
-              onChangeText={(text) => setProductState({ ...productState, productName: text })}
+              onChangeText={(text) =>
+                setProductState({ ...productState, productName: text })
+              }
               style={styles.input}
             />
             <TextInput
               placeholder="Product Description *"
               value={productState.description}
-              onChangeText={(text) => setProductState({ ...productState, description: text })}
+              onChangeText={(text) =>
+                setProductState({ ...productState, description: text })
+              }
               style={styles.input}
             />
             <TextInput
               placeholder="Phone *"
               value={productState.phone}
-              onChangeText={(text) => setProductState({ ...productState, phone: text })}
+              onChangeText={(text) =>
+                setProductState({ ...productState, phone: text })
+              }
               style={styles.input}
             />
             <TextInput
               placeholder="Email *"
               value={productState.email}
-              onChangeText={(text) => setProductState({ ...productState, email: text })}
+              onChangeText={(text) =>
+                setProductState({ ...productState, email: text })
+              }
               style={styles.input}
             />
           </View>
-        );
+        )
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -191,13 +220,23 @@ const CreateNewCardScreen = () => {
         <Text style={styles.headerTitle}>Create New</Text>
         <View style={styles.tabContainer}>
           <TouchableOpacity onPress={() => setActiveTab('CV')}>
-            <Text style={activeTab === 'CV' ? styles.tabActive : styles.tab}>CV</Text>
+            <Text style={activeTab === 'CV' ? styles.tabActive : styles.tab}>
+              CV
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setActiveTab('Company')}>
-            <Text style={activeTab === 'Company' ? styles.tabActive : styles.tab}>Company</Text>
+            <Text
+              style={activeTab === 'Company' ? styles.tabActive : styles.tab}
+            >
+              Company
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setActiveTab('Product')}>
-            <Text style={activeTab === 'Product' ? styles.tabActive : styles.tab}>Product</Text>
+            <Text
+              style={activeTab === 'Product' ? styles.tabActive : styles.tab}
+            >
+              Product
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -206,8 +245,8 @@ const CreateNewCardScreen = () => {
         <Button title="Submit" onPress={handleSubmit} /> {/* Submit button */}
       </View>
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -250,6 +289,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
   },
-});
+})
 
-export default CreateNewCardScreen;
+export default CreateNewCardScreen

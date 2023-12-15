@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
+import IUser from '../models/IUser'
 
-const userSchema = new Schema({
+const userSchema = new Schema<IUser>({
   firstName: {
     type: String,
     required: true,
@@ -24,11 +25,13 @@ const userSchema = new Schema({
   cardsReceived: [
     {
       type: Schema.Types.ObjectId,
+      default: [],
     },
   ],
   cardsGivenAway: [
     {
       type: Schema.Types.ObjectId,
+      default: [],
     },
   ],
 })

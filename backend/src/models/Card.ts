@@ -1,6 +1,7 @@
 import { Types } from 'mongoose'
+import QRCode from 'qrcode'
 
-class Card {
+abstract class Card {
   private _id: Types.ObjectId
   private _user: Types.ObjectId
 
@@ -11,6 +12,8 @@ class Card {
     this._id = objectId
     this._user = userObjectId
   }
+
+  public abstract get forAPI(): Record<string, unknown>
 
   public get user() {
     return this._user
@@ -24,6 +27,17 @@ class Card {
 
   public get id() {
     return this._id
+  }
+
+  public async generateQRCode(): Promise<string> {
+    const cardData = JSON.stringify(this.forAPI)
+    try {
+      const qrCode = await QRCode.toDataURL(cardData)
+      return qrCode
+    } catch (err) {
+      console.error(err)
+      return ''
+    }
   }
 }
 

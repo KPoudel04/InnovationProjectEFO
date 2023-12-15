@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   SafeAreaView,
   View,
@@ -8,26 +8,42 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import {RootStackParamList} from "App";
+  Alert,
+} from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from 'App'
+import RestClient from '../../networking/RestClient'
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
 
   const handleLogin = () => {
-    navigation.navigate('Home');
-  };
+    RestClient.instance
+      .login(email, password)
+      .then(() => navigation.navigate('Home'))
+      .catch((error) => {
+        console.error(error)
+        Alert.alert(error.message)
+      })
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+      >
         <View style={styles.innerContainer}>
-          <Icon name="user-circle" size={100} color="#000" style={styles.icon} />
+          <Icon
+            name="user-circle"
+            size={100}
+            color="#000"
+            style={styles.icon}
+          />
           <TextInput
             placeholder="Email"
             value={email}
@@ -46,14 +62,17 @@ const LoginScreen = () => {
           <TouchableOpacity onPress={handleLogin} style={styles.button}>
             <Text style={styles.buttonText}>Log In</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>navigation.navigate('Signup')} style={styles.button}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Signup')}
+            style={styles.button}
+          >
             <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -83,7 +102,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    backgroundColor: '#0000FF', 
+    backgroundColor: '#0000FF',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
@@ -94,6 +113,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-});
+})
 
-export default LoginScreen;
+export default LoginScreen

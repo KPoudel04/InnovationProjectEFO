@@ -3,35 +3,37 @@ import Database from './mongo/Database'
 import dotenv from 'dotenv'
 import UserModel from './mongo/UserModel'
 import { User } from './models/User'
+import UserCreateController from './controllers/UserCreateController'
+import UserLoginController from './controllers/UserLoginController'
+import CardCreateController from './controllers/CardCreateController'
+import passportConfig from './user-authentication/Passport'
+import CardDeleteController from './controllers/CardDeleteController'
+import CardGetController from './controllers/CardGetController'
+import CardGetAllController from './controllers/CardGetAllController'
+import cors from 'cors'
 
 dotenv.config()
 
 const app = express()
 const port = 3000
 
+passportConfig.initialiseJWTStrategy()
+
+app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 Database.instance.connect()
+
+new UserCreateController(app).init()
+new UserLoginController(app).init()
+new CardCreateController(app).init()
+new CardDeleteController(app).init()
+new CardGetController(app).init()
+new CardGetAllController(app).init()
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
-})
-
-app.post('/user', async (req, res) => {
-  const user = new User(
-    'John',
-    'Doe',
-    'john.doe@example.com',
-    'johndoe',
-    'password'
-  )
-  const newUser = new UserModel({
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    username: user.username,
-    password: user.password,
-  })
-  const savedUser = await newUser.save()
-  res.json(savedUser)
 })
 
 app.listen(port, () => {

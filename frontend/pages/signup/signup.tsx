@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   SafeAreaView,
   View,
@@ -8,50 +8,68 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import {RootStackParamList} from "App";
+  Alert,
+} from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from 'App'
+import RestClient from '../../networking/RestClient'
 
 const SignUp = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
 
   const handleSignUp = () => {
-    navigation.navigate('Login');
-  };
+    RestClient.instance
+      .createUser({
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+      })
+      .then(() => {
+        navigation.navigate('Login')
+      })
+      .catch((error) => {
+        console.error(error)
+        Alert.alert(error.message)
+      })
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}
+      >
         <View style={styles.innerContainer}>
-        <TextInput
+          <TextInput
             placeholder="First Name"
             value={firstName}
             onChangeText={setFirstName}
             style={styles.input}
             autoCapitalize="none"
-            />
-            <TextInput
+          />
+          <TextInput
             placeholder="Last Name"
             value={lastName}
             onChangeText={setLastName}
             style={styles.input}
             autoCapitalize="none"
-            />
-            <TextInput
+          />
+          <TextInput
             placeholder="Username"
-            value={lastName}
+            value={username}
             onChangeText={setUsername}
             style={styles.input}
             autoCapitalize="none"
-            />
-
+          />
 
           <TextInput
             placeholder="Email"
@@ -74,8 +92,8 @@ const SignUp = () => {
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -105,7 +123,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    backgroundColor: '#0000FF', 
+    backgroundColor: '#0000FF',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
@@ -116,6 +134,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-});
+})
 
-export default SignUp;
+export default SignUp
