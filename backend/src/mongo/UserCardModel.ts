@@ -40,4 +40,7 @@ const userCardSchema = new Schema({
   education: {
     type: String,
   },
+  skills: {
+    type: String,
+  },
 })

@@ -9,34 +9,34 @@ import {
   Image,
 } from 'react-native'
 import Card from '../../cards/Card'
-import Header from '../../components/header'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack'
 import {RootStackParamList} from "App"
-const HomeScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const [cards, setCards] = React.useState([])
-  const [selectedCard, setSelectedCard] = React.useState(null);
-  const handleCardPress = (cardData:any) => {
-    setSelectedCard(cardData); 
-    navigation.navigate('CardDetails', { cardData: cardData });
-  };
+const YourCards = () => {
+const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Header navigation={navigation}/>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.headerButton}>
+          <Icon name="user" size={20} color="#000" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.headerButton}>
+          <Icon name="plus" size={20} color="#000" />
+        </TouchableOpacity>
+      </View>
       <ScrollView style={styles.scrollView}>
-      <TouchableOpacity onPress={() => handleCardPress({ title: "Business", whatsapp: "WhatsApp", 
-      instagram: "Instagram", linkedin: "LinkedIn" })}>
         <Card
           title="Business"
           whatsapp="WhatsApp"
           instagram="Instagram"
           linkedin="LinkedIn"
-          id="1"
+          /*PASS THROUGH ID WHEN IMPLEMENTING BACKEND AND JUST PULL THE DATA THROUGH API IN 
+          THE DETAILS PAGE
+          */
         />
-      </TouchableOpacity>
       </ScrollView>
       <View style={styles.footer}>
         <TouchableOpacity style={styles.footerButton} onPress={()=>navigation.navigate('Home')}>
@@ -49,6 +49,7 @@ const HomeScreen = () => {
           <FontAwesomeIcon name="database" size={24} color="#000" />
         </TouchableOpacity>
       </View>
+      
     </SafeAreaView>
   )
 }
@@ -57,6 +58,16 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: '#FFFFFF',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  headerButton: {
+    padding: 10,
   },
   scrollView: {
     flex: 1,
@@ -76,4 +87,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HomeScreen
+export default YourCards

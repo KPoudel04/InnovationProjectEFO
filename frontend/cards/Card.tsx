@@ -14,6 +14,7 @@ interface CardProps {
   whatsapp?: string
   instagram?: string
   linkedin?: string
+  id?: string
 }
 
 
