@@ -36,6 +36,7 @@ const CreateNewCardScreen = () => {
     phone: '',
     email: '',
     address: '',
+    yelp: ''
   })
   const [productState, setProductState] = useState({
     productName: '',
@@ -55,7 +56,7 @@ const CreateNewCardScreen = () => {
     }
     RestClient.instance
       .createCard(cardData, activeTab)
-      .then(async () => RestClient.instance.reloadCards(activeTab))
+      .then(async () => RestClient.instance.reloadCards())
       .then(() => navigation.navigate('YourCards'))
   }
 

@@ -14,6 +14,7 @@ interface IUserCard {
   experience2: string
   experience3: string
   education: string
+  yelp:string
 }
 
 export type INewUserCard = Omit<IUserCard, '_id'>

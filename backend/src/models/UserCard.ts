@@ -14,6 +14,7 @@ class UserCard extends Card {
   experience2: string
   experience3: string
   education: string
+  yelp: string
 
   constructor(data: IUserCard) {
     super(data._id, data.user)
@@ -28,6 +29,7 @@ class UserCard extends Card {
     this.experience2 = data.experience2
     this.experience3 = data.experience3
     this.education = data.education
+    this.yelp = data.yelp
   }
 
   public override get forAPI() {
@@ -44,6 +46,7 @@ class UserCard extends Card {
       experience2: this.experience2,
       experience3: this.experience3,
       education: this.education,
+      yelp: this.yelp
     }
   }
 

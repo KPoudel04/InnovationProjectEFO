@@ -44,9 +44,6 @@ const HomeScreen = () => {
           >
             <Card
               title={card.card.name}
-              whatsapp={card.card.whatsapp}
-              instagram={card.card.instagram}
-              linkedin={card.card.linkedin}
               key={card.card.id}
             />
           </TouchableOpacity>

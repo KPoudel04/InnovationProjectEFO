@@ -29,6 +29,14 @@ class RestClient {
     const data = await response.data
     return data
   }
+  public static async getYelpBusinessDetails(yelpBusinessId:any) {
+    return fetch(`http://localhost:3000/api/get-yelp-details/${yelpBusinessId}`)
+      .then(response => response.json())
+      .then(data => data)
+      .catch(error => {
+        throw error;
+      });
+  }
 
   public async login(username: string, password: string) {
     const response = await axios.post(`${this.HOST}/login`, {
@@ -77,7 +85,22 @@ class RestClient {
     const data = await response.json()
     return data
   }
-
+  public async updateCardWithYelp(cardId: string, yelpBusinessId: any) {
+    const response = await axios.put(`${this.HOST}/card/${cardId}`, {
+      yelpBusinessId,
+    }, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    });
+  
+    if (response.status !== 200) {
+      throw new Error('Failed to update card with Yelp data');
+    }
+  
+    const data = response.data;
+    return data;
+  }
   public async reloadCards() {
     const response = await axios.get(`${this.HOST}/cards`, {
       headers: {

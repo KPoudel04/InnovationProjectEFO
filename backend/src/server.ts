@@ -10,6 +10,9 @@ import passportConfig from './user-authentication/Passport'
 import CardDeleteController from './controllers/CardDeleteController'
 import CardGetController from './controllers/CardGetController'
 import CardGetAllController from './controllers/CardGetAllController'
+import CardUpdateController from './controllers/YelpGetController'
+import CompanyCard from './models/CompanyCard'
+import YelpGetController from './controllers/YelpGetController'
 import cors from 'cors'
 
 dotenv.config()
@@ -31,11 +34,13 @@ new CardCreateController(app).init()
 new CardDeleteController(app).init()
 new CardGetController(app).init()
 new CardGetAllController(app).init()
-
+new CardUpdateController(app).init()
+new YelpGetController(app).init();
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
-
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`)
 })
+
+export default app;
