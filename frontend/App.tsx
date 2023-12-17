@@ -1,14 +1,15 @@
-import { StatusBar } from 'expo-status-bar'
-import React from 'react'
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import HomeScreen from './pages/homeScreen/homeScreen'
-import YourCards from './pages/yourCards/yourCards'
-import createCard from './pages/createCard/createCard'
+import React from 'react'
+import { StyleSheet } from 'react-native'
 import CardDetails from './pages/cardDetails/cardDetails'
+import createCard from './pages/createCard/createCard'
+import HomeScreen from './pages/homeScreen/homeScreen'
 import Login from './pages/login/login'
 import Signup from './pages/signup/signup'
+import YourCards from './pages/yourCards/yourCards'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import QRCodeScreen from './qr-code-scanner/QRCodeScreen'
 
 export type RootStackParamList = {
   Home: undefined
@@ -17,9 +18,11 @@ export type RootStackParamList = {
   CardDetails: { cardData: any }
   Login: undefined
   Signup: undefined
+  QR: undefined
 }
 
 export const Stack = createStackNavigator<RootStackParamList>()
+const Tab = createBottomTabNavigator()
 
 export default function App() {
   return (
@@ -31,6 +34,7 @@ export default function App() {
         <Stack.Screen name="YourCards" component={YourCards} />
         <Stack.Screen name="createCard" component={createCard} />
         <Stack.Screen name="CardDetails" component={CardDetails} />
+        <Stack.Screen name="QR" component={QRCodeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )

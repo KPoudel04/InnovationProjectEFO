@@ -1,12 +1,20 @@
 import axios from 'axios'
+import Constants from 'expo-constants'
 
 class RestClient {
   private token: string | null = null
   private _cards: Record<string, string>[] = []
 
-  private HOST = 'http://localhost:3000'
+  private readonly HOST = 'http://192.168.1.109'
+  private readonly PORT = 3000
 
-  private constructor() {}
+  private readonly LINK = Constants?.expoConfig?.hostUri
+    ? Constants.expoConfig.hostUri.split(`:`).shift()!.concat(`:3000`)
+    : `yourapi.com`
+
+  private constructor() {
+    console.log(this.LINK)
+  }
 
   private static _instance: RestClient
 
@@ -22,7 +30,7 @@ class RestClient {
   }
 
   public async createUser(user: Record<string, unknown>) {
-    const response = await axios.post(`${this.HOST}/user`, user)
+    const response = await axios.post(`${this.LINK}/user`, user)
     if (response.status !== 200) {
       throw new Error('Failed to create user')
     }
@@ -31,10 +39,11 @@ class RestClient {
   }
 
   public async login(username: string, password: string) {
-    const response = await axios.post(`${this.HOST}/login`, {
+    const response = await axios.post(`${this.LINK}/login`, {
       username,
       password,
     })
+    console.log(response.data)
     if (response.status !== 200) {
       throw new Error('Failed to login')
     }
@@ -44,7 +53,7 @@ class RestClient {
 
   public async createCard(card: Record<string, unknown>, cardType: string) {
     const response = await axios.post(
-      `${this.HOST}/card`,
+      `${this.LINK}/card`,
       {
         ...card,
         cardType,
@@ -65,7 +74,7 @@ class RestClient {
   }
 
   public async deleteCard(cardId: string, cardType: string) {
-    const response = await fetch(`${this.HOST}/card/${cardId}`, {
+    const response = await fetch(`${this.LINK}/card/${cardId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -79,7 +88,7 @@ class RestClient {
   }
 
   public async reloadCards() {
-    const response = await axios.get(`${this.HOST}/cards`, {
+    const response = await axios.get(`${this.LINK}/cards`, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
