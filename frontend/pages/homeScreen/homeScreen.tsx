@@ -56,7 +56,10 @@ const HomeScreen = () => {
         >
           <Icon name="home" size={20} color="#000" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.footerButton}>
+        <TouchableOpacity
+          style={styles.footerButton}
+          onPress={() => navigation.navigate('QR')}
+        >
           <FontAwesomeIcon name="qrcode" size={24} color="#000" />
         </TouchableOpacity>
         <TouchableOpacity
