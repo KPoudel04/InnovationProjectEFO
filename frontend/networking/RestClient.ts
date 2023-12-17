@@ -1,20 +1,18 @@
 import axios from 'axios'
-import Constants from 'expo-constants'
+import { Platform } from 'react-native'
 
 class RestClient {
   private token: string | null = null
   private _cards: Record<string, string>[] = []
 
-  private readonly HOST = 'http://192.168.1.109'
+  private readonly HOST = Platform.select({
+    default: 'http://localhost',
+    android: '10.0.2.2',
+  })
   private readonly PORT = 3000
+  private readonly LINK = `${this.HOST}:${this.PORT}`
 
-  private readonly LINK = Constants?.expoConfig?.hostUri
-    ? Constants.expoConfig.hostUri.split(`:`).shift()!.concat(`:3000`)
-    : `yourapi.com`
-
-  private constructor() {
-    console.log(this.LINK)
-  }
+  private constructor() {}
 
   private static _instance: RestClient
 
@@ -37,21 +35,12 @@ class RestClient {
     const data = await response.data
     return data
   }
-  public static async getYelpBusinessDetails(yelpBusinessId:any) {
-    return fetch(`http://localhost:3000/api/get-yelp-details/${yelpBusinessId}`)
-      .then(response => response.json())
-      .then(data => data)
-      .catch(error => {
-        throw error;
-      });
-  }
 
   public async login(username: string, password: string) {
     const response = await axios.post(`${this.LINK}/login`, {
       username,
       password,
     })
-    console.log(response.data)
     if (response.status !== 200) {
       throw new Error('Failed to login')
     }
@@ -59,12 +48,13 @@ class RestClient {
     this.token = data.token
   }
 
-  public async createCard(card: Record<string, unknown>, cardType: string) {
+  public async createCard(card: Record<string, string>, cardType: string) {
     const response = await axios.post(
       `${this.LINK}/card`,
       {
         ...card,
         cardType,
+        name: card.name,
       },
       {
         headers: {
@@ -94,29 +84,55 @@ class RestClient {
     const data = await response.json()
     return data
   }
+
   public async updateCardWithYelp(cardId: string, yelpBusinessId: any) {
-    const response = await axios.put(`${this.HOST}/card/${cardId}`, {
-      yelpBusinessId,
-    }, {
-      headers: {
-        Authorization: `Bearer ${this.token}`,
+    const response = await axios.put(
+      `${this.HOST}/card/${cardId}`,
+      {
+        yelpBusinessId,
       },
-    });
-  
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      }
+    )
+
+    console.log(response.data)
+
     if (response.status !== 200) {
-      throw new Error('Failed to update card with Yelp data');
+      throw new Error('Failed to update card with Yelp data')
     }
-  
-    const data = response.data;
-    return data;
+
+    const data = response.data
+    return data
   }
+
+  public async getYelpBusinessDetails(yelpBusinessId: string) {
+    console.log(yelpBusinessId)
+    const response = await axios.get(
+      `${this.HOST}/api/get-yelp-details/${yelpBusinessId}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.token}`,
+        },
+      }
+    )
+
+    const data = response.data
+    console.log(data)
+    return data
+  }
+
   public async reloadCards() {
     const response = await axios.get(`${this.LINK}/cards`, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
     })
-    console.log(response.data)
+
+    console.log(response.data.cards.map((card: any) => card.card))
 
     if (response.status !== 200) {
       console.error(response.data)

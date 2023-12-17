@@ -1,19 +1,16 @@
-import express from 'express'
-import Database from './mongo/Database'
+import cors from 'cors'
 import dotenv from 'dotenv'
-import UserModel from './mongo/UserModel'
-import { User } from './models/User'
+import express from 'express'
+import CardCreateController from './controllers/CardCreateController'
+import CardDeleteController from './controllers/CardDeleteController'
+import CardGetAllController from './controllers/CardGetAllController'
+import CardGetController from './controllers/CardGetController'
+import CardUpdateController from './controllers/CardUpdateController'
 import UserCreateController from './controllers/UserCreateController'
 import UserLoginController from './controllers/UserLoginController'
-import CardCreateController from './controllers/CardCreateController'
-import passportConfig from './user-authentication/Passport'
-import CardDeleteController from './controllers/CardDeleteController'
-import CardGetController from './controllers/CardGetController'
-import CardGetAllController from './controllers/CardGetAllController'
-import CardUpdateController from './controllers/YelpGetController'
-import CompanyCard from './models/CompanyCard'
 import YelpGetController from './controllers/YelpGetController'
-import cors from 'cors'
+import Database from './mongo/Database'
+import passportConfig from './user-authentication/Passport'
 
 dotenv.config()
 
@@ -35,7 +32,8 @@ new CardDeleteController(app).init()
 new CardGetController(app).init()
 new CardGetAllController(app).init()
 new CardUpdateController(app).init()
-new YelpGetController(app).init();
+new YelpGetController(app).init()
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
@@ -43,4 +41,4 @@ app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`)
 })
 
-export default app;
+export default app

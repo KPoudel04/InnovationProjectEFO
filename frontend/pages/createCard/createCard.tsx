@@ -31,15 +31,15 @@ const CreateNewCardScreen = () => {
     cardName: '',
   })
   const [companyState, setCompanyState] = useState({
-    companyName: '',
+    name: '',
     title: '',
     phone: '',
     email: '',
     address: '',
-    yelp: ''
+    yelp: '',
   })
   const [productState, setProductState] = useState({
-    productName: '',
+    name: '',
     description: '',
     phone: '',
     email: '',
@@ -49,7 +49,7 @@ const CreateNewCardScreen = () => {
     let cardData: Record<string, string>
     if (activeTab === 'CV') {
       cardData = { ...cvState, name: cvState.cardName }
-    } else if (activeTab === 'Company') {
+    } else if (activeTab === 'company') {
       cardData = companyState
     } else {
       cardData = productState
@@ -57,7 +57,7 @@ const CreateNewCardScreen = () => {
     RestClient.instance
       .createCard(cardData, activeTab)
       .then(async () => RestClient.instance.reloadCards())
-      .then(() => navigation.navigate('YourCards'))
+      .then(() => navigation.goBack())
   }
 
   const renderForm = () => {
@@ -153,14 +153,14 @@ const CreateNewCardScreen = () => {
             />
           </View>
         )
-      case 'Company':
+      case 'company':
         return (
           <View>
             <TextInput
               placeholder="Company Name *"
-              value={companyState.companyName}
+              value={companyState.name}
               onChangeText={(text) =>
-                setCompanyState({ ...companyState, companyName: text })
+                setCompanyState({ ...companyState, name: text })
               }
               style={styles.input}
             />
@@ -196,16 +196,27 @@ const CreateNewCardScreen = () => {
               }
               style={styles.input}
             />
+            <TextInput
+              placeholder="Yelp"
+              value={companyState.yelp}
+              onChangeText={(text) =>
+                setCompanyState({
+                  ...companyState,
+                  yelp: text,
+                })
+              }
+              style={styles.input}
+            />
           </View>
         )
-      case 'Product':
+      case 'product':
         return (
           <View>
             <TextInput
               placeholder="Product Name *"
-              value={productState.productName}
+              value={productState.name}
               onChangeText={(text) =>
-                setProductState({ ...productState, productName: text })
+                setProductState({ ...productState, name: text })
               }
               style={styles.input}
             />
@@ -250,16 +261,16 @@ const CreateNewCardScreen = () => {
               CV
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setActiveTab('Company')}>
+          <TouchableOpacity onPress={() => setActiveTab('company')}>
             <Text
-              style={activeTab === 'Company' ? styles.tabActive : styles.tab}
+              style={activeTab === 'company' ? styles.tabActive : styles.tab}
             >
               Company
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setActiveTab('Product')}>
+          <TouchableOpacity onPress={() => setActiveTab('product')}>
             <Text
-              style={activeTab === 'Product' ? styles.tabActive : styles.tab}
+              style={activeTab === 'product' ? styles.tabActive : styles.tab}
             >
               Product
             </Text>
@@ -268,7 +279,7 @@ const CreateNewCardScreen = () => {
       </View>
       <View style={styles.formContainer}>
         {renderForm()}
-        <Button title="Submit" onPress={handleSubmit} /> {/* Submit button */}
+        <Button title="Submit" onPress={handleSubmit} />
       </View>
     </ScrollView>
   )

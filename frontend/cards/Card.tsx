@@ -12,6 +12,9 @@ import React from 'react'
 interface CardProps {
   title: string
   id?: string
+  whatsapp?: string
+  instagram?: string
+  linkedin?: string
 }
 
 const Card = (props: CardProps) => {
@@ -24,25 +27,25 @@ const Card = (props: CardProps) => {
       <View style={styles.rightBoxContainer}>
         <Text style={styles.title}>{props.title}</Text>
         <View style={styles.contactDetailsContainer}>
-            <Icon
-              name="whatsapp"
-              style={{ marginRight: 10 }}
-              size={20}
-              color="#075E54"
-            />
-            <Icon
-              name="instagram"
-              style={{ marginRight: 10 }}
-              size={20}
-              color="#C13584"
-            /> 
-            <Icon
-              name="yelp"
-              style={{ marginRight: 10 }}
-              size={20}
-              color="#C13584"
-            />
-            <Icon name="linkedin-square" size={20} color="#0077B5" />
+          <Icon
+            name="whatsapp"
+            style={{ marginRight: 10 }}
+            size={20}
+            color="#075E54"
+          />
+          <Icon
+            name="instagram"
+            style={{ marginRight: 10 }}
+            size={20}
+            color="#C13584"
+          />
+          <Icon
+            name="yelp"
+            style={{ marginRight: 10 }}
+            size={20}
+            color="#C13584"
+          />
+          <Icon name="linkedin-square" size={20} color="#0077B5" />
         </View>
       </View>
     </View>

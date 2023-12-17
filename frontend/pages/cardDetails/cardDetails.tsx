@@ -1,36 +1,45 @@
 import React from 'react'
-import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import RestClient from '../../networking/RestClient';
+import { useEffect, useState } from 'react'
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native'
+import RestClient from '../../networking/RestClient'
 import QRCode from 'react-native-qrcode-svg'
+
 interface YelpBusinessDetails {
-  name: string;
-  rating: number; 
-  price: string; 
-  phone: string; 
+  name: string
+  rating: number
+  price: string
+  phone: string
   location: {
-    address1: string;
-  };
+    address1: string
+  }
 }
+
 const CardDetails = ({ route, navigation }: any) => {
-  const { cardData } = route.params;
-  const [yelpData, setYelpData] = useState<YelpBusinessDetails | null>(null);
+  const { cardData } = route.params
+  const [yelpData, setYelpData] = useState<YelpBusinessDetails | null>(null)
 
   const handleConnectYelp = () => {
-    navigation.navigate('YelpConnection', { cardId: cardData.id });
-  };
+    navigation.navigate('YelpConnection', { cardId: cardData.id })
+  }
 
   useEffect(() => {
     if (cardData.yelp) {
-      RestClient.getYelpBusinessDetails(cardData.yelp)
-        .then(data => {
-          setYelpData(data);
+      RestClient.instance
+        .getYelpBusinessDetails(cardData.yelp)
+        .then((data) => {
+          setYelpData(data)
         })
-        .catch(error => {
-          console.error(error);
-        });
+        .catch((error) => {
+          console.error(error)
+        })
     }
-  }, [cardData]);
+  }, [cardData])
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -41,18 +50,23 @@ const CardDetails = ({ route, navigation }: any) => {
           <Text style={styles.yelpDetail}>Phone: {yelpData.phone}</Text>
           <Text style={styles.yelpDetail}>Price: {yelpData.price}</Text>
           <Text style={styles.yelpDetail}>Rating: {yelpData.rating}</Text>
-          <Text style={styles.yelpDetail}>Address: {yelpData.location.address1}</Text>
+          <Text style={styles.yelpDetail}>
+            Address: {yelpData.location.address1}
+          </Text>
         </View>
       )}
-      <TouchableOpacity style={styles.connectButton} onPress={handleConnectYelp}>
+      <TouchableOpacity
+        style={styles.connectButton}
+        onPress={handleConnectYelp}
+      >
         <Text style={styles.connectButtonText}>Connect with Yelp</Text>
       </TouchableOpacity>
       <View style={styles.qrCodeContainer}>
         <QRCode value={cardData.id} size={200} />
       </View>
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -104,7 +118,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
   },
-});
+})
 
-export default CardDetails;
-
+export default CardDetails

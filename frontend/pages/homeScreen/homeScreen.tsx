@@ -21,15 +21,15 @@ const HomeScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const [cards, setCards] = React.useState<Record<string, any>[]>([])
   const [selectedCard, setSelectedCard] = React.useState(null)
+
   const handleCardPress = (cardData: any) => {
     setSelectedCard(cardData)
     navigation.navigate('CardDetails', { cardData: cardData.card })
   }
 
   useEffect(() => {
-    RestClient.instance.reloadCards().then((cards) => {
+    RestClient.instance.reloadCards().then(() => {
       setCards(RestClient.instance.cards)
-      console.log(cards)
     })
   }, [])
 
@@ -37,17 +37,17 @@ const HomeScreen = () => {
     <SafeAreaView style={styles.safeArea}>
       <Header navigation={navigation} />
       <ScrollView style={styles.scrollView}>
-        {cards.map((card) => (
-          <TouchableOpacity
-            onPress={() => handleCardPress(card)}
-            key={card.card.id}
-          >
-            <Card
-              title={card.card.name}
+        {cards.map((card) => {
+          console.log('card:', card.card)
+          return (
+            <TouchableOpacity
+              onPress={() => handleCardPress(card)}
               key={card.card.id}
-            />
-          </TouchableOpacity>
-        ))}
+            >
+              <Card title={card.card.name} key={card.card.id} />
+            </TouchableOpacity>
+          )
+        })}
       </ScrollView>
       <View style={styles.footer}>
         <TouchableOpacity

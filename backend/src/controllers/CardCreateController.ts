@@ -20,29 +20,39 @@ class CardCreateController implements Controller {
   }
 
   private createCard = async (req: Request, res: Response) => {
-    const cardType: CardType = req.body.cardType
-    console.log(cardType)
+    try {
+      const cardType: CardType = req.body.cardType
 
-    let card: Card
+      let card: Card
 
-    switch (cardType) {
-      case 'company':
-        card = await CompanyCard.createNew(req.body)
-        break
-      case 'product':
-        card = await ProductCard.createNew(req.body)
-        break
-      case 'CV':
-        card = await UserCard.createNew({ ...req.body, user: req.user!.id })
-        break
-      default:
-        throw new Error('Invalid card type')
+      switch (cardType) {
+        case 'company':
+          card = await CompanyCard.createNew({
+            ...req.body,
+            user: req.user!.id,
+          })
+          break
+        case 'product':
+          card = await ProductCard.createNew({
+            ...req.body,
+            user: req.user!.id,
+          })
+          break
+        case 'CV':
+          card = await UserCard.createNew({ ...req.body, user: req.user!.id })
+          break
+        default:
+          throw new Error('Invalid card type')
+      }
+
+      const user = new User({ ...req.user!, _id: req.user!.id })
+      await user.addCardsGivenAway(card)
+      const qrCode = await card.generateQRCode()
+      res.json({ card: card.forAPI, qrCode })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ error: 'Failed to create card' })
     }
-
-    const user = new User({ ...req.user!, _id: req.user!.id })
-    await user.addCardsGivenAway(card)
-    const qrCode = await card.generateQRCode()
-    res.json({ card: card.forAPI, qrCode })
   }
 }
 

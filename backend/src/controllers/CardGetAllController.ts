@@ -46,6 +46,8 @@ class CardGetAllController implements Controller {
       cards.map((card) => card.generateQRCode())
     )
 
+    console.log(cards.map((card) => card.forAPI))
+
     res.json({
       cards: cards.map((card, index) => ({
         card: card.forAPI,

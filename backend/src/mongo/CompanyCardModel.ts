@@ -28,7 +28,7 @@ const companyCardSchema = new Schema(
     },
     yelp: {
       type: String,
-    }
+    },
   },
   {
     timestamps: true,
