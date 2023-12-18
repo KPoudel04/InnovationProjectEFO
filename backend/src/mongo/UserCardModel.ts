@@ -49,6 +49,10 @@ const userCardSchema = new Schema({
   skills: {
     type: String,
   },
+  type: {
+    type: String,
+    required: true,
+  },
 })
 
 const UserCardModel = mongoose.model('UserCard', userCardSchema)

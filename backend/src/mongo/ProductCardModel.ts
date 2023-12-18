@@ -21,6 +21,10 @@ const productCardSchema = new Schema({
     type: String,
     required: true,
   },
+  type: {
+    type: String,
+    required: true,
+  },
 })
 
 const ProductCardModel = mongoose.model('ProductCard', productCardSchema)

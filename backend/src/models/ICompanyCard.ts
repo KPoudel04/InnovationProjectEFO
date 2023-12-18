@@ -6,6 +6,8 @@ interface ICompanyCard extends ICard {
   phone: string
   email: string
   address: string
+  yelp: string
+  companyName: string
 }
 
 export type INewCompanyCard = Omit<ICompanyCard, '_id' | 'user'>

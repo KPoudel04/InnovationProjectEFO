@@ -17,48 +17,34 @@ class CardGetController implements Controller {
   }
 
   public init() {
-    this.app.get('/card/:cardId/:cardType', authenticate, this.getCard)
+    this.app.get('/card/:cardId', authenticate, this.getCard)
   }
 
   private getCard = async (req: Request, res: Response) => {
     let card: Card
+    const cardTypes: CardType[] = ['company', 'product', 'CV']
 
-    const cardType: CardType = req.body.cardType
-
-    switch (cardType) {
-      case 'company': {
-        const cardData = await CompanyCardModel.findById(req.params.cardId)
-        if (!cardData) {
-          res.status(404).json({ error: 'Card not found' })
-          return
-        }
-        card = new CompanyCard(cardData.toObject())
-        break
+    try {
+      const cards = await Promise.all(
+        cardTypes.map((cardType) => {
+          if (cardType === 'CV') {
+            return UserCardModel.findById(req.params.cardId).exec()
+          } else if (cardType === 'company') {
+            return CompanyCardModel.findById(req.params.cardId).exec()
+          } else {
+            return ProductCardModel.findById(req.params.cardId).exec()
+          }
+        })
+      )
+      const foundCard = cards.find((card) => card !== null)
+      if (!foundCard) {
+        throw new Error('Card not found')
       }
-      case 'product': {
-        const cardData = await ProductCardModel.findById(req.params.cardId)
-        if (!cardData) {
-          res.status(404).json({ error: 'Card not found' })
-          return
-        }
-        card = new CompanyCard(cardData.toObject())
-        break
-      }
-      case 'CV': {
-        const cardData = await UserCardModel.findById(req.params.cardId)
-        if (!cardData) {
-          res.status(404).json({ error: 'Card not found' })
-          return
-        }
-        card = new UserCard(cardData.toObject())
-      }
-      default:
-        res.status(400).json({ error: 'Invalid card type' })
-        return
+      res.json({ card: foundCard })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ error: 'Failed to get card' })
     }
-
-    const qrCode = await card.generateQRCode()
-    res.json({ card: card.forAPI, qrCode })
   }
 }
 

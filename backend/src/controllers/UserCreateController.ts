@@ -15,16 +15,22 @@ class UserCreateController implements Controller {
   }
 
   private createUser = async (req: Request, res: Response) => {
-    const doUsernameOrEmailExist = await this.doUsernameOrEmailExist(
-      req.body.username,
-      req.body.email
-    )
-    if (doUsernameOrEmailExist) {
-      res.status(400).json({ error: 'Username or email already exists' })
+    try {
+      const doUsernameOrEmailExist = await this.doUsernameOrEmailExist(
+        req.body.username,
+        req.body.email
+      )
+      if (doUsernameOrEmailExist) {
+        res.status(400).json({ error: 'Username or email already exists' })
+        return
+      }
+      const user = await User.createNew(req.body)
+      res.json({ user: user.forAPI })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ error: 'Failed to create user' })
       return
     }
-    const user = await User.createNew(req.body)
-    res.json({ user: user.forAPI })
   }
 
   private doUsernameOrEmailExist(username: string, email: string) {

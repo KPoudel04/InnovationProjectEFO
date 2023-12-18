@@ -5,34 +5,35 @@ import ProductCardModel from '../mongo/ProductCardModel'
 interface ProductCardData {
   _id: string
   user: string
-  cardName: string
-  cardTitle: string
-  cardPhone: string
-  cardEmail: string
+  name: string
+  description: string
+  phone: string
+  email: string
 }
 
 class ProductCard extends Card {
-  private cardName: string
-  private cardTitle: string
-  private cardPhone: string
-  private cardEmail: string
+  private readonly name: string
+  private readonly description: string
+  private readonly phone: string
+  private readonly email: string
 
   constructor(data: ProductCardData) {
     super(data._id, data.user)
-    this.cardName = data.cardName
-    this.cardTitle = data.cardTitle
-    this.cardPhone = data.cardPhone
-    this.cardEmail = data.cardEmail
+    this.name = data.name
+    this.description = data.description
+    this.phone = data.phone
+    this.email = data.email
   }
 
   public override get forAPI() {
     return {
       id: this.id,
       user: this.user,
-      cardName: this.cardName,
-      cardTitle: this.cardTitle,
-      cardPhone: this.cardPhone,
-      cardEmail: this.cardEmail,
+      name: this.name,
+      description: this.description,
+      phone: this.phone,
+      email: this.email,
+      type: 'product',
     }
   }
 

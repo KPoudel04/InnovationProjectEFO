@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   SafeAreaView,
   ScrollView,
@@ -11,11 +11,25 @@ import {
 import Card from '../../cards/Card'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-import {RootStackParamList} from "App"
+import { RootStackParamList } from 'App'
+import RestClient from '../../networking/RestClient'
+
 const YourCards = () => {
-const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const [cards, setCards] = useState<Record<string, any>[]>([])
+
+  useEffect(() => {
+    RestClient.instance.getCardsReceived().then((cards) => {
+      setCards([...cards])
+      console.log('cards', cards)
+    })
+  })
+
+  const handleCardPress = (cardData: any) => {
+    navigation.navigate('CardDetails', { cardData: cardData.card })
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -28,28 +42,34 @@ const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
         </TouchableOpacity>
       </View>
       <ScrollView style={styles.scrollView}>
-        <Card
-          title="Business"
-          whatsapp="WhatsApp"
-          instagram="Instagram"
-          linkedin="LinkedIn"
-          /*PASS THROUGH ID WHEN IMPLEMENTING BACKEND AND JUST PULL THE DATA THROUGH API IN 
-          THE DETAILS PAGE
-          */
-        />
+        {cards.map((card) => {
+          return (
+            <TouchableOpacity
+              onPress={() => handleCardPress(card)}
+              key={card.id}
+            >
+              <Card title={card.name} key={card.id} />
+            </TouchableOpacity>
+          )
+        })}
       </ScrollView>
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerButton} onPress={()=>navigation.navigate('Home')}>
+        <TouchableOpacity
+          style={styles.footerButton}
+          onPress={() => navigation.navigate('Home')}
+        >
           <Icon name="home" size={20} color="#000" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.footerButton}>
           <FontAwesomeIcon name="qrcode" size={24} color="#000" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.footerButton} onPress={() => navigation.navigate('YourCards')}>
+        <TouchableOpacity
+          style={styles.footerButton}
+          onPress={() => navigation.navigate('YourCards')}
+        >
           <FontAwesomeIcon name="database" size={24} color="#000" />
         </TouchableOpacity>
       </View>
-      
     </SafeAreaView>
   )
 }
@@ -79,7 +99,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderTopWidth: 1,
     borderTopColor: '#D9D9D9',
-    margin:0
+    margin: 0,
   },
   footerButton: {
     padding: 10,

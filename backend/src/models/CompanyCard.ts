@@ -8,6 +8,7 @@ class CompanyCard extends Card {
   phone: string
   email: string
   address: string
+  yelp: string
 
   constructor(data: ICompanyCard) {
     super(data._id, data.user)
@@ -16,6 +17,7 @@ class CompanyCard extends Card {
     this.phone = data.phone
     this.email = data.email
     this.address = data.address
+    this.yelp = data.yelp
   }
 
   public override get forAPI() {
@@ -27,6 +29,8 @@ class CompanyCard extends Card {
       phone: this.phone,
       email: this.email,
       address: this.address,
+      yelp: this.yelp,
+      type: 'company',
     }
   }
 
@@ -34,6 +38,22 @@ class CompanyCard extends Card {
     const newCompanyCard = new CompanyCardModel(data)
     const savedCompanyCard = await newCompanyCard.save()
     return new CompanyCard(savedCompanyCard.toObject())
+  }
+  public static async updateYelp(
+    cardId: string,
+    yelpBusinessId: string
+  ): Promise<CompanyCard> {
+    const updatedCompanyCard = await CompanyCardModel.findByIdAndUpdate(
+      cardId,
+      { yelp: yelpBusinessId },
+      { new: true }
+    )
+
+    if (!updatedCompanyCard) {
+      throw new Error('CompanyCard not found')
+    }
+
+    return new CompanyCard(updatedCompanyCard.toObject())
   }
 }
 

@@ -1,20 +1,14 @@
 import axios from 'axios'
-import Constants from 'expo-constants'
 
 class RestClient {
   private token: string | null = null
   private _cards: Record<string, string>[] = []
 
-  private readonly HOST = 'http://192.168.1.109'
+  private readonly HOST = 'https://icy-dolls-divide.loca.lt'
   private readonly PORT = 3000
+  private readonly LINK = `${this.HOST}`
 
-  private readonly LINK = Constants?.expoConfig?.hostUri
-    ? Constants.expoConfig.hostUri.split(`:`).shift()!.concat(`:3000`)
-    : `yourapi.com`
-
-  private constructor() {
-    console.log(this.LINK)
-  }
+  private constructor() {}
 
   private static _instance: RestClient
 
@@ -43,7 +37,6 @@ class RestClient {
       username,
       password,
     })
-    console.log(response.data)
     if (response.status !== 200) {
       throw new Error('Failed to login')
     }
@@ -51,12 +44,13 @@ class RestClient {
     this.token = data.token
   }
 
-  public async createCard(card: Record<string, unknown>, cardType: string) {
+  public async createCard(card: Record<string, string>, cardType: string) {
     const response = await axios.post(
       `${this.LINK}/card`,
       {
         ...card,
         cardType,
+        name: card.name,
       },
       {
         headers: {
@@ -87,13 +81,53 @@ class RestClient {
     return data
   }
 
+  public async updateCardWithYelp(
+    cardId: string,
+    yelpBusinessId: string,
+    cardType: string
+  ) {
+    const response = await axios.put(
+      `${this.LINK}/card/${cardId}`,
+      {
+        yelp: yelpBusinessId,
+        cardType,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      }
+    )
+
+    if (response.status !== 200) {
+      throw new Error('Failed to update card with Yelp data')
+    }
+
+    const data = response.data
+    return data
+  }
+
+  public async getYelpBusinessDetails(yelpBusinessId: string) {
+    const response = await axios.get(
+      `${this.LINK}/api/get-yelp-details/${yelpBusinessId}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.token}`,
+        },
+      }
+    )
+
+    const data = response.data
+    return data
+  }
+
   public async reloadCards() {
     const response = await axios.get(`${this.LINK}/cards`, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
     })
-    console.log(response.data)
 
     if (response.status !== 200) {
       console.error(response.data)
@@ -102,6 +136,52 @@ class RestClient {
 
     const data = response.data
     this._cards = data.cards
+  }
+
+  public async getCard(cardId: string) {
+    const response = await axios.get(`${this.LINK}/card/${cardId}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    })
+
+    if (response.status !== 200) {
+      throw new Error('Failed to get card')
+    }
+
+    const data = response.data
+    return data
+  }
+
+  public async getCardsReceived() {
+    const response = await axios.get(`${this.LINK}/cards/received`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    })
+    console.log('response', response.data)
+    return response.data.cards
+  }
+
+  public async addCardReceived(cardId: string) {
+    const response = await axios.post(
+      `${this.LINK}/cards/received`,
+      {
+        cardId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      }
+    )
+
+    if (response.status !== 200) {
+      throw new Error('Failed to add card received')
+    }
+
+    const data = response.data
+    return data
   }
 }
 
