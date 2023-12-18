@@ -10,7 +10,7 @@ import Signup from './pages/signup/signup'
 import YelpConnectionScreen from './pages/yelpConnectionScreen/yelpConnectionScreen'
 import YourCards from './pages/yourCards/yourCards'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import QRCodeScreen from './qr-code-scanner/QRCodeScreen'
+import QRCodeScreen from './pages/qr-code-scanner/QRCodeScreen'
 
 export type RootStackParamList = {
   Home: undefined

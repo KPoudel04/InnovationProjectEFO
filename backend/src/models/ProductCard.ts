@@ -33,6 +33,7 @@ class ProductCard extends Card {
       description: this.description,
       phone: this.phone,
       email: this.email,
+      type: 'product',
     }
   }
 

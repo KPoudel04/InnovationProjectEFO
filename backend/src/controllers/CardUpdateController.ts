@@ -20,6 +20,7 @@ class CardUpdateController implements Controller {
   private updateCard = async (req: Request, res: Response) => {
     const cardType: CardType = req.body.cardType
 
+    delete req.body.cardType
     try {
       switch (cardType) {
         case 'company':

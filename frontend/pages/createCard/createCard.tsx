@@ -48,11 +48,11 @@ const CreateNewCardScreen = () => {
   const handleSubmit = () => {
     let cardData: Record<string, string>
     if (activeTab === 'CV') {
-      cardData = { ...cvState, name: cvState.cardName }
+      cardData = { ...cvState, name: cvState.cardName, type: 'CV' }
     } else if (activeTab === 'company') {
-      cardData = companyState
+      cardData = { ...companyState, type: 'company' }
     } else {
-      cardData = productState
+      cardData = { ...productState, type: 'product' }
     }
     RestClient.instance
       .createCard(cardData, activeTab)

@@ -7,12 +7,12 @@ import { RootStackParamList } from 'App';
 
 const YelpConnectionScreen = ({ route }: any) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const { cardId } = route.params;
+  const { cardId, cardType } = route.params;
   const [yelpBusinessId, setYelpBusinessId] = useState('');
 
   const handleUpdateCardWithYelp = () => {
     RestClient.instance
-      .updateCardWithYelp(cardId, yelpBusinessId)
+      .updateCardWithYelp(cardId, yelpBusinessId, cardType)
       .then(() => {
         console.log('Card updated successfully with Yelp business ID:', yelpBusinessId);
         navigation.goBack();

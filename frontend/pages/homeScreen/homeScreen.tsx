@@ -31,14 +31,13 @@ const HomeScreen = () => {
     RestClient.instance.reloadCards().then(() => {
       setCards(RestClient.instance.cards)
     })
-  }, [])
+  }, [RestClient.instance.cards])
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <Header navigation={navigation} />
       <ScrollView style={styles.scrollView}>
         {cards.map((card) => {
-          console.log('card:', card.card)
           return (
             <TouchableOpacity
               onPress={() => handleCardPress(card)}

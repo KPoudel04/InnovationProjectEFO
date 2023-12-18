@@ -46,7 +46,8 @@ class UserCard extends Card {
       experience2: this.experience2,
       experience3: this.experience3,
       education: this.education,
-      yelp: this.yelp
+      yelp: this.yelp,
+      type: 'CV',
     }
   }
 

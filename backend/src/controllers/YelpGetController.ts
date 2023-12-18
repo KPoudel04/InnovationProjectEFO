@@ -18,7 +18,6 @@ class YelpGetController {
     req: express.Request,
     res: express.Response
   ) => {
-    console.log('Agnes')
     const { yelpBusinessId } = req.params
     const yelpApiKey = process.env.YELP_API_KEY
 

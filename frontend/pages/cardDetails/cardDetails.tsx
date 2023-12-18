@@ -25,7 +25,10 @@ const CardDetails = ({ route, navigation }: any) => {
   const [yelpData, setYelpData] = useState<YelpBusinessDetails | null>(null)
 
   const handleConnectYelp = () => {
-    navigation.navigate('YelpConnection', { cardId: cardData.id })
+    navigation.navigate('YelpConnection', {
+      cardId: cardData.id,
+      cardType: cardData.type,
+    })
   }
 
   useEffect(() => {

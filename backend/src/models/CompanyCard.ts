@@ -30,11 +30,11 @@ class CompanyCard extends Card {
       email: this.email,
       address: this.address,
       yelp: this.yelp,
+      type: 'company',
     }
   }
 
   public static async createNew(data: INewCompanyCard) {
-    console.log(data)
     const newCompanyCard = new CompanyCardModel(data)
     const savedCompanyCard = await newCompanyCard.save()
     return new CompanyCard(savedCompanyCard.toObject())

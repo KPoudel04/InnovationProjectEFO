@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Text, View, StyleSheet, Button } from 'react-native'
 import { BarCodeScanner } from 'expo-barcode-scanner'
+import RestClient from '../../networking/RestClient'
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null)
@@ -15,7 +16,7 @@ export default function App() {
     getBarCodeScannerPermissions()
   }, [])
 
-  const handleBarCodeScanned = ({
+  const handleBarCodeScanned = async ({
     type,
     data,
   }: {
@@ -23,7 +24,7 @@ export default function App() {
     data: string
   }) => {
     setScanned(true)
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`)
+    await RestClient.instance.addCardReceived(data)
   }
 
   if (hasPermission === null) {
